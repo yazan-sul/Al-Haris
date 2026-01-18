@@ -8,15 +8,9 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
 
   useEffect(() => {
     const loadUser = async () => {
-      const token = localStorage.getItem("access_token");
-      if (!token) {
-        setLoading(false);
-        return;
-      }
-
       try {
         const res = await fetch("/api/auth/me", {
-          headers: { Authorization: `Bearer ${token}` },
+          credentials: "include",
         });
         if (res.ok) setUser(await res.json());
       } catch (e) {

@@ -12,12 +12,8 @@ export default function BlockedSitesList() {
 
   const fetchBlockedSites = async () => {
     try {
-      const token = localStorage.getItem("access_token");
-
       const response = await fetch("/api/parent/settings", {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
+        credentials: "include",
       });
 
       if (response.ok) {
@@ -33,19 +29,14 @@ export default function BlockedSitesList() {
 
   const handleUnblock = async (site: string) => {
     try {
-      const token = localStorage.getItem("auth_token");
-
       const response = await fetch("/api/parent/unblock-url", {
         method: "DELETE",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
-        },
+        credentials: "include",
         body: JSON.stringify({ url: site }),
       });
 
       if (response.ok) {
-        fetchBlockedSites(); // Refresh the list
+        fetchBlockedSites();
       }
     } catch (error) {
       console.error("Failed to unblock:", error);

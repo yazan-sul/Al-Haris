@@ -6,14 +6,7 @@ import SidebarHeader from "./SidebarHeader";
 import SidebarNav from "./SidebarNav";
 import UserProfile from "./UserProfile";
 
-import {
-  Calendar,
-  CreditCard,
-  DollarSign,
-  Settings,
-  Phone,
-  FileText,
-} from "lucide-react";
+import { LayoutDashboard, Ban, Shield, Users, FileText } from "lucide-react";
 import Logout from "./Logout";
 
 interface NavItem {
@@ -37,11 +30,11 @@ const Sidebar: React.FC<SidebarProps> = ({
   const sidebarRef = useRef<HTMLDivElement>(null);
 
   const mainNavItems: NavItem[] = [
-    { name: "لوحة التحكم", href: "/dashboard", icon: Calendar },
-    { name: "حظر التطبيقات", href: "/block", icon: CreditCard },
-    { name: "تصفية الويب", href: "/webBlock", icon: DollarSign },
-    { name: "اضافة ابن", href: "/addchild", icon: DollarSign },
-    { name: "تقارير الحوادث", href: "/reports", icon: DollarSign },
+    { name: "لوحة التحكم", href: "/dashboard", icon: LayoutDashboard },
+    { name: "حظر التطبيقات", href: "/block", icon: Ban },
+    { name: "تصفية الويب", href: "/webBlock", icon: Shield },
+    { name: "العائلة", href: "/addchild", icon: Users },
+    { name: "تقارير الحوادث", href: "/reports", icon: FileText },
   ];
 
   const sidebarWidth = isOpen ? "w-64" : "w-16";

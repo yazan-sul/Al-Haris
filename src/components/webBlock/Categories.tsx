@@ -22,14 +22,8 @@ export default function CategoriesComponent() {
 
   const fetchSettings = async () => {
     try {
-      const token =
-        typeof window !== "undefined"
-          ? localStorage.getItem("access_token")
-          : null;
       const response = await fetch("/api/parent/settings", {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
+        credentials: "include",
       });
 
       if (response.ok) {
@@ -49,14 +43,9 @@ export default function CategoriesComponent() {
   const updateCategories = async (categories: string[]) => {
     setUpdating(true);
     try {
-      const token = localStorage.getItem("access_token");
-
       const response = await fetch("/api/parent/categories", {
         method: "PUT",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
-        },
+        credentials: "include",
         body: JSON.stringify({ categories }),
       });
 

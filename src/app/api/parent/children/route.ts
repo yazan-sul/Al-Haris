@@ -1,19 +1,17 @@
 import { NextResponse } from "next/server";
+import { cookies } from "next/headers";
 
 export async function GET(request: Request) {
   try {
-    const authHeader = request.headers.get("authorization");
+    const cookieStore = await cookies();
+    const token = cookieStore.get("token")?.value;
 
-    if (!authHeader) {
-      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
-    }
     const response = await fetch(
       "https://al-haris-production.up.railway.app/parent/children",
       {
         method: "GET",
         headers: {
-          "Content-Type": "application/json",
-          Authorization: authHeader,
+          Authorization: `Bearer ${token}`,
           Accept: "application/json",
         },
       },

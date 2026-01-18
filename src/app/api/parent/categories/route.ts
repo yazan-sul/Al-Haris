@@ -1,15 +1,17 @@
 import { NextResponse } from "next/server";
+import { cookies } from "next/headers";
 
 export async function PUT(req: Request) {
   try {
-    const authHeader = req.headers.get("authorization");
-    const body = await req.json();
+    const cookieStore = await cookies();
+    const token = cookieStore.get("token")?.value;
 
-    console.log("Body:", body);
-
-    if (!authHeader) {
+    if (!token) {
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
+
+    const body = await req.json();
+    console.log("Body:", body);
 
     const response = await fetch(
       "https://al-haris-production.up.railway.app/parent/categories",
@@ -17,8 +19,8 @@ export async function PUT(req: Request) {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",
-          Authorization: authHeader,
           Accept: "application/json",
+          Authorization: `Bearer ${token}`,
         },
         body: JSON.stringify(body),
       },

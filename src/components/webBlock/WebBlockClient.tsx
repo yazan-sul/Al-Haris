@@ -12,15 +12,6 @@ export default function WebBlockClient() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
-    const token = localStorage.getItem("access_token");
-
-    console.log("Token from localStorage:", token);
-
-    if (!token) {
-      setMessage("غير مصرح: لم يتم تسجيل الدخول");
-      return;
-    }
-
     setLoading(true);
     setMessage(null);
 
@@ -30,8 +21,8 @@ export default function WebBlockClient() {
         headers: {
           "Content-Type": "application/json",
           Accept: "application/json",
-          Authorization: `Bearer ${token}`,
         },
+        credentials: "include",
 
         body: JSON.stringify({ url }),
       });

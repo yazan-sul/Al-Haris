@@ -23,18 +23,15 @@ export default function VerifyForm() {
     try {
       const response = await fetch("/api/auth/verify", {
         method: "POST",
+        credentials: "include",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ email, code }),
       });
 
       const data = await response.json();
-      console.log("data: ", data);
+
       if (!response.ok) {
         throw new Error(data.message || "رمز التحقق غير صحيح");
-      }
-
-      if (data.access_token) {
-        localStorage.setItem("access_token", data.access_token);
       }
 
       setSuccess(true);

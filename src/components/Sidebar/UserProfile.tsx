@@ -16,27 +16,16 @@ const UserProfile: React.FC<UserProfileProps> = ({ isOpen }) => {
 
   useEffect(() => {
     const fetchUser = async () => {
-      const token = localStorage.getItem("access_token");
-
-      if (!token) {
-        setLoading(false);
-        return;
-      }
-
       try {
         const response = await fetch("/api/auth/me", {
           method: "GET",
-          headers: {
-            Authorization: `Bearer ${token}`,
-            Accept: "application/json",
-          },
+          credentials: "include",
         });
 
         if (response.ok) {
           const data = await response.json();
           setUser(data);
         } else {
-          // If response is 403, 405, or 500, we just log it
           console.error("Auth failed with status:", response.status);
           setUser(null);
         }
@@ -53,7 +42,6 @@ const UserProfile: React.FC<UserProfileProps> = ({ isOpen }) => {
     }
   }, [isOpen]);
 
-  // Only render the component if isOpen is true
   if (!isOpen) return null;
 
   return (
@@ -65,7 +53,6 @@ const UserProfile: React.FC<UserProfileProps> = ({ isOpen }) => {
         <User className="w-24 h-24 text-white" />
       </div>
       <div className="flex-1 transition-all duration-300 text-center">
-        {/* If user or name is missing, it displays nothing here without crashing */}
         <p className="text-lg font-semibold text-gray-700 dark:text-gray-200">
           {user?.name || ""}
         </p>

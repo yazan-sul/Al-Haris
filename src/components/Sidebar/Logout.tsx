@@ -1,4 +1,4 @@
-"use client"; // Required because we use useRouter and onClick
+"use client";
 
 import React from "react";
 import { LogOut } from "lucide-react";
@@ -7,11 +7,13 @@ import { useRouter } from "next/navigation";
 const Logout: React.FC = () => {
   const router = useRouter();
 
-  const handleLogout = () => {
-    localStorage.removeItem("token");
+  const handleLogout = async () => {
+    await fetch("/api/auth/logout", {
+      method: "POST",
+      credentials: "include",
+    });
 
-    router.push("/");
-
+    router.push("/login");
     router.refresh();
   };
 
