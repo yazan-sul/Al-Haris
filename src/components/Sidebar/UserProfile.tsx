@@ -11,11 +11,23 @@ interface UserProfileProps {
 }
 
 const UserProfile: React.FC<UserProfileProps> = ({ isOpen }) => {
-  const [user, setUser] = useState<UserData | null>(null);
-  const [loading, setLoading] = useState<boolean>(true);
+  const [user, setUser] = useState<UserData | null>(() => {
+    if (typeof window !== "undefined") {
+      const saved = localStorage.getItem("user_data");
+      return saved ? JSON.parse(saved) : null;
+    }
+    return null;
+  });
+
+  const [loading, setLoading] = useState<boolean>(!user);
 
   useEffect(() => {
     const fetchUser = async () => {
+      if (user?.name) {
+        setLoading(false);
+        return;
+      }
+
       try {
         const response = await fetch("/api/auth/me", {
           method: "GET",
@@ -25,8 +37,8 @@ const UserProfile: React.FC<UserProfileProps> = ({ isOpen }) => {
         if (response.ok) {
           const data = await response.json();
           setUser(data);
+          localStorage.setItem("user_data", JSON.stringify(data));
         } else {
-          console.error("Auth failed with status:", response.status);
           setUser(null);
         }
       } catch (error) {
@@ -40,8 +52,7 @@ const UserProfile: React.FC<UserProfileProps> = ({ isOpen }) => {
     if (isOpen) {
       fetchUser();
     }
-  }, [isOpen]);
-
+  }, [isOpen, user?.name]);
   if (!isOpen) return null;
 
   return (
@@ -54,7 +65,7 @@ const UserProfile: React.FC<UserProfileProps> = ({ isOpen }) => {
       </div>
       <div className="flex-1 transition-all duration-300 text-center">
         <p className="text-lg font-semibold text-gray-700 dark:text-gray-200">
-          {user?.name || ""}
+          {loading ? "..." : user?.name || "Guest"}
         </p>
         <p className="text-xs text-gray-500 dark:text-gray-400">ولي امر</p>
       </div>
