@@ -19,7 +19,7 @@ export default function RootLayout({
     "/addchild": "إضافة طفل",
     "/reports": "التقارير",
     "/settings": "الإعدادات",
-    "/categories": "الفئات المحظورة",
+    "/block": "حظر التطبيقات",
     "/webBlock": "حظر المواقع",
   };
 
@@ -44,7 +44,7 @@ export default function RootLayout({
   transition-all duration-300 ease-in-out 
   flex items-center px-8"
               >
-                <div className="py-4 flex items-center gap-2">
+                <div className="py-4  flex items-center gap-2">
                   <span className="text-gray-500 text-base">الرئيسية /</span>
                   <h1 className="text-2xl font-bold text-gray-900 dark:text-white">
                     {getPageTitle()}
