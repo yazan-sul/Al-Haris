@@ -1,5 +1,6 @@
 "use client";
 
+import { Eye, X } from "lucide-react";
 import { useState, useEffect } from "react";
 
 interface Report {
@@ -22,7 +23,7 @@ export default function ReportsPage() {
   const fetchReports = async () => {
     try {
       const response = await fetch("/api/parent/reports", {
-        credentials: "include", // ✅ send cookies automatically
+        credentials: "include",
       });
 
       if (response.ok) {
@@ -50,22 +51,26 @@ export default function ReportsPage() {
   if (loading) {
     return (
       <div className="max-w-6xl mx-auto p-6">
-        <p className="text-center text-gray-500 py-8">جارٍ التحميل...</p>
+        <p className="text-center text-gray-500 py-8 font-medium italic">
+          جارٍ التحميل...
+        </p>
       </div>
     );
   }
 
   return (
-    <div className="max-w-6xl mx-auto p-6 space-y-6">
+    <div className="max-w-6xl mx-auto p-6 space-y-6" dir="rtl">
       <div className="flex items-center justify-between">
-        <h1 className="text-2xl font-bold text-start">التقارير</h1>
-        <div className="text-sm text-gray-500">
+        <h1 className="text-2xl font-bold text-start text-gray-800">
+          التقارير
+        </h1>
+        <div className="text-sm text-gray-500 bg-gray-100 px-3 py-1 rounded-full">
           إجمالي التقارير: {reports.length}
         </div>
       </div>
 
       {reports.length === 0 ? (
-        <div className="text-center py-12 bg-gray-50 rounded-lg">
+        <div className="text-center py-12 bg-gray-50 rounded-lg border-2 border-dashed border-gray-200">
           <p className="text-gray-500 text-lg">لا توجد تقارير</p>
           <p className="text-gray-400 text-sm mt-2">
             ستظهر التقارير هنا عند محاولة الأطفال الوصول إلى مواقع محظورة
@@ -76,26 +81,25 @@ export default function ReportsPage() {
           {reports.map((report) => (
             <div
               key={report.id}
-              className="bg-white rounded-lg border hover:shadow-md transition-shadow cursor-pointer"
-              onClick={() => setSelectedReport(report)}
+              className="bg-white rounded-xl border border-gray-200 hover:border-blue-300 hover:shadow-md transition-all duration-200 group/card"
             >
               <div className="p-5">
                 <div className="flex items-start justify-between gap-4">
-                  <div className="flex-1 space-y-2">
+                  <div className="flex-1 space-y-3">
                     <div className="flex items-center gap-2">
-                      <span className="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-medium bg-red-100 text-red-800">
+                      <span className="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-semibold bg-red-50 text-red-700 border border-red-100">
                         ⚠️ محاولة وصول
                       </span>
-                      <span className="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-medium bg-blue-100 text-blue-800">
+                      <span className="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-semibold bg-blue-50 text-blue-700 border border-blue-100">
                         👤 {report.child_name}
                       </span>
                     </div>
 
                     <div className="text-start">
-                      <h3 className="font-semibold text-lg text-gray-900 mb-1">
+                      <h3 className="font-bold text-lg text-gray-900 mb-1 break-all">
                         {report.website_url}
                       </h3>
-                      <p className="text-sm text-gray-500">
+                      <p className="text-sm text-gray-500 flex items-center gap-1">
                         🕐 {formatDate(report.timestamp)}
                       </p>
                     </div>
@@ -103,11 +107,16 @@ export default function ReportsPage() {
 
                   {report.screenshot_url && (
                     <div className="flex-shrink-0">
-                      <img
-                        src={report.screenshot_url}
-                        alt="Screenshot"
-                        className="w-32 h-20 object-cover rounded-lg border"
-                      />
+                      <button
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          setSelectedReport(report);
+                        }}
+                        className="flex items-center gap-2 px-4 py-2 bg-gray-50 hover:bg-blue-600 hover:text-white border border-gray-200 hover:border-blue-600 rounded-lg text-gray-600 transition-all duration-200 group"
+                      >
+                        <span className="text-sm font-bold">عرض اللقطة</span>
+                        <Eye className="w-4 h-4 transition-transform group-hover:scale-110" />
+                      </button>
                     </div>
                   )}
                 </div>
@@ -117,68 +126,39 @@ export default function ReportsPage() {
         </div>
       )}
 
-      {/* Screenshot Modal */}
       {selectedReport && (
         <div
-          className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50"
+          className="fixed inset-0 bg-black/70 backdrop-blur-sm flex items-center justify-center p-4 z-50 animate-in fade-in duration-200"
           onClick={() => setSelectedReport(null)}
         >
           <div
-            className="bg-white rounded-lg max-w-4xl w-full max-h-[90vh] overflow-auto"
+            className="bg-white rounded-2xl max-w-5xl w-full max-h-[90vh] overflow-hidden shadow-2xl flex flex-col"
             onClick={(e) => e.stopPropagation()}
           >
-            <div className="p-6 space-y-4">
-              <div className="flex items-start justify-between">
-                <div className="flex-1 text-start">
-                  <h2 className="text-xl font-bold mb-2">تفاصيل التقرير</h2>
-                  <div className="space-y-2 text-sm text-gray-600">
-                    <p>
-                      <strong>الطفل:</strong> {selectedReport.child_name}
-                    </p>
-                    <p>
-                      <strong>الموقع:</strong> {selectedReport.website_url}
-                    </p>
-                    <p>
-                      <strong>التاريخ:</strong>{" "}
-                      {formatDate(selectedReport.timestamp)}
-                    </p>
-                  </div>
-                </div>
-                <button
-                  onClick={() => setSelectedReport(null)}
-                  className="text-gray-400 hover:text-gray-600 text-2xl"
-                >
-                  ×
-                </button>
+            <div className="p-4 border-b flex items-center justify-between bg-gray-50">
+              <div className="text-start">
+                <h3 className="font-bold text-gray-900">
+                  {selectedReport.website_url}
+                </h3>
+                <p className="text-xs text-gray-500">
+                  {selectedReport.child_name} •{" "}
+                  {formatDate(selectedReport.timestamp)}
+                </p>
               </div>
+              <button
+                onClick={() => setSelectedReport(null)}
+                className="p-2 hover:bg-gray-200 rounded-full transition-colors"
+              >
+                <X className="w-6 h-6 text-gray-600" />
+              </button>
+            </div>
 
-              {selectedReport.screenshot_url && (
-                <div className="mt-4">
-                  <img
-                    src={selectedReport.screenshot_url}
-                    alt="Screenshot"
-                    className="w-full rounded-lg border"
-                  />
-                </div>
-              )}
-
-              <div className="flex gap-3 pt-4">
-                <button
-                  onClick={() => setSelectedReport(null)}
-                  className="flex-1 px-4 py-2 bg-gray-200 text-gray-800 rounded-lg hover:bg-gray-300 transition-colors"
-                >
-                  إغلاق
-                </button>
-                <button
-                  onClick={() => {
-                    // Add block URL functionality here
-                    console.log("Block URL:", selectedReport.website_url);
-                  }}
-                  className="flex-1 px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 transition-colors"
-                >
-                  حظر هذا الموقع
-                </button>
-              </div>
+            <div className="p-2 overflow-auto bg-gray-100 flex items-center justify-center">
+              <img
+                src={selectedReport.screenshot_url}
+                alt="Screenshot"
+                className="max-w-full h-auto rounded-lg shadow-sm border border-gray-200"
+              />
             </div>
           </div>
         </div>
