@@ -105,18 +105,6 @@ export default function VerifyForm() {
             {loading ? "جاري التأكيد..." : "تأكيد الرمز"}
           </button>
         </form>
-
-        <div className="mt-6 text-center">
-          <button
-            type="button"
-            className="text-sm text-blue-600 hover:text-blue-700 font-medium"
-            onClick={() => {
-              /* Add resend logic here */
-            }}
-          >
-            إعادة إرسال الرمز؟
-          </button>
-        </div>
       </div>
 
       {/* Hide on mobile to give form more room */}
