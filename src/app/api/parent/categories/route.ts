@@ -14,7 +14,7 @@ export async function PUT(req: Request) {
     console.log("Body:", body);
 
     const response = await fetch(
-      "https://al-haris-production.up.railway.app/parent/categories",
+      `${process.env.NEXT_PUBLIC_API_URL}/parent/categories`,
       {
         method: "PUT",
         headers: {

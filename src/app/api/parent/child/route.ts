@@ -1,28 +1,34 @@
 import { NextResponse } from "next/server";
+import { cookies } from "next/headers";
 
 export async function POST(request: Request) {
   try {
-    const authHeader = request.headers.get("authorization");
+    const cookieStore = await cookies();
+    const token = cookieStore.get("token")?.value;
+
+    if (!token) {
+      return NextResponse.json({ message: "Unauthorized" }, { status: 401 });
+    }
+
     const body = await request.json();
 
-    if (!authHeader) {
-      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
-    }
     const response = await fetch(
-      "https://al-haris-production.up.railway.app/parent/child",
+      `${process.env.NEXT_PUBLIC_API_URL}/parent/child`,
       {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
-          Authorization: authHeader,
           Accept: "application/json",
+          Authorization: `Bearer ${token}`,
         },
         body: JSON.stringify(body),
       },
     );
+
     const data = await response.json();
     return NextResponse.json(data, { status: response.status });
   } catch (error) {
+    console.error("Error creating child:", error);
     return NextResponse.json(
       { message: "Internal Server Error" },
       { status: 500 },

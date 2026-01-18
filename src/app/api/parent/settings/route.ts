@@ -7,7 +7,7 @@ export async function GET(req: Request) {
     const token = cookieStore.get("token")?.value;
 
     const response = await fetch(
-      "https://al-haris-production.up.railway.app/parent/settings",
+      `${process.env.NEXT_PUBLIC_API_URL}/parent/settings`,
       {
         method: "GET",
         headers: {

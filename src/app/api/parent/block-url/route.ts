@@ -1,27 +1,25 @@
 import { NextResponse } from "next/server";
+import { cookies } from "next/headers";
 
 export async function POST(req: Request) {
   try {
     const body = await req.json();
-    const authHeader = req.headers.get("authorization");
-    console.log("we here");
-    if (!authHeader) {
-      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
-    }
-    console.log("Here");
+    const cookieStore = await cookies();
+    const token = cookieStore.get("token")?.value;
+
     const response = await fetch(
-      "https://al-haris-production.up.railway.app/parent/block-url",
+      `${process.env.NEXT_PUBLIC_API_URL}/parent/block-url`,
       {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
           Accept: "application/json",
-          Authorization: authHeader,
+          Authorization: `Bearer ${token}`,
         },
         body: JSON.stringify(body),
       },
     );
-    console.log(response);
+
     if (!response.ok) {
       return NextResponse.json(
         { error: "Failed to block URL" },
