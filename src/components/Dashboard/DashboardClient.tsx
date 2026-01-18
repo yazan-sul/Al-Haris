@@ -24,7 +24,7 @@ export default function DashboardClient() {
           لوحة التحكم
         </h1>
         <p className="text-gray-600 dark:text-gray-400 mt-2 text-lg">
-          نظرة عامة على نشاط يزن لليوم. {dateText}.
+          نظرة عامة على نشاط اليوم. {dateText}.
         </p>
       </div>
 
