@@ -1,4 +1,5 @@
 import React from "react";
+import { EyeOff, Dice1, Zap, Gamepad, MessageSquare } from "lucide-react";
 
 interface CategoryCardProps {
   category: string;
@@ -13,42 +14,45 @@ export default function CategoryCard({
   onToggle,
   disabled = false,
 }: CategoryCardProps) {
+  // Use lucide-react components instead of emojis
   const categoryData: Record<
     string,
-    { name: string; icon: string; description: string }
+    { name: string; icon: React.ElementType; description: string }
   > = {
     adult: {
       name: "محتوى للبالغين",
-      icon: "🔞",
+      icon: EyeOff,
       description: "حظر المحتوى الإباحي والمواد غير اللائقة",
     },
     gambling: {
       name: "المقامرة",
-      icon: "🎰",
+      icon: Dice1,
       description: "حظر مواقع القمار والرهان",
     },
     violence: {
       name: "العنف",
-      icon: "⚔️",
+      icon: Zap,
       description: "حظر المحتوى العنيف والدموي",
     },
     games: {
       name: "الألعاب",
-      icon: "🎮",
+      icon: Gamepad,
       description: "حظر مواقع وتطبيقات الألعاب",
     },
     chat: {
       name: "الدردشة",
-      icon: "💬",
+      icon: MessageSquare,
       description: "حظر منصات الدردشة والمحادثات",
     },
   };
 
   const data = categoryData[category] || {
     name: category,
-    icon: "📱",
+    icon: Gamepad, // fallback icon
     description: "فئة محظورة",
   };
+
+  const Icon = data.icon;
 
   return (
     <div
@@ -64,7 +68,9 @@ export default function CategoryCard({
       <div className="flex items-start justify-between gap-3">
         <div className="flex-1 text-start">
           <div className="flex items-center gap-2 mb-2">
-            <span className="text-2xl">{data.icon}</span>
+            <span className="text-2xl">
+              <Icon />
+            </span>
             <h3 className="font-bold text-lg">{data.name}</h3>
           </div>
           <p className="text-sm text-gray-600 mb-3">{data.description}</p>
@@ -81,20 +87,19 @@ export default function CategoryCard({
           </div>
         </div>
 
-        {/* Toggle Switch */}
-        <div className="flex-shrink-0">
-          <div
-            className={`relative w-14 h-7 rounded-full transition-colors ${
-              isEnabled ? "bg-red-500" : "bg-gray-300"
-            }`}
-          >
-            <div
-              className={`absolute top-0.5 w-6 h-6 bg-white rounded-full shadow-md transition-transform ${
-                isEnabled ? "translate-x-7" : "translate-x-0.5"
-              }`}
-            />
-          </div>
-        </div>
+        <button
+          type="button"
+          role="switch"
+          aria-checked={isEnabled}
+          onClick={() => !isEnabled}
+          className={`relative w-14 h-7 rounded-full transition-colors duration-300
+        ${isEnabled ? "bg-red-500" : "bg-gray-300"}`}
+        >
+          <span
+            className={`absolute top-0.5 left-0.5 w-6 h-6 bg-white rounded-full shadow-md transition-transform duration-300
+          ${isEnabled ? "translate-x-7" : "translate-x-0"}`}
+          />
+        </button>
       </div>
     </div>
   );
