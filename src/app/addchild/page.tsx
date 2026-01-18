@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 interface Child {
   id: number;
@@ -22,16 +22,23 @@ export default function AddChildPage() {
   const [message, setMessage] = useState<string>("");
   const [children, setChildren] = useState<Child[]>([]);
 
+  useEffect(() => {
+    fetchChildren();
+  }, []);
+
   const handleSubmit = async (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
     setLoading(true);
     setMessage("");
 
     try {
+      const token = localStorage.getItem("access_token");
+
       const response = await fetch("/api/parent/child", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
+          ...(token && { Authorization: `Bearer ${token}` }),
         },
         body: JSON.stringify(formData),
       });
@@ -53,7 +60,13 @@ export default function AddChildPage() {
 
   const fetchChildren = async () => {
     try {
-      const response = await fetch("/api/parent/children");
+      const token = localStorage.getItem("access_token");
+
+      const response = await fetch("/api/parent/children", {
+        headers: {
+          ...(token && { Authorization: `Bearer ${token}` }),
+        },
+      });
       const data = await response.json();
       setChildren(data.children || []);
     } catch (error) {
@@ -65,8 +78,13 @@ export default function AddChildPage() {
     if (!confirm("هل أنت متأكد من حذف هذا الطفل؟")) return;
 
     try {
-      const response = await fetch(`/api    /parent/child/${childId}`, {
+      const token = localStorage.getItem("access_token");
+
+      const response = await fetch(`/api/parent/child/${childId}`, {
         method: "DELETE",
+        headers: {
+          ...(token && { Authorization: `Bearer ${token}` }),
+        },
       });
 
       if (response.ok) {
@@ -81,10 +99,7 @@ export default function AddChildPage() {
     <div className="max-w-2xl mx-auto space-y-8 p-6">
       <h1 className="text-2xl font-bold text-start">إضافة طفل جديد</h1>
 
-      <div
-        onSubmit={handleSubmit}
-        className="bg-white rounded-lg border p-6 space-y-5"
-      >
+      <div className="bg-white rounded-lg border p-6 space-y-5">
         <div className="space-y-2">
           <label className="block text-sm font-medium text-start">الاسم</label>
           <input
