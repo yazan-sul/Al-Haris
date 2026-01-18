@@ -107,7 +107,6 @@ export default function VerifyForm() {
         </form>
       </div>
 
-      {/* Hide on mobile to give form more room */}
       <div className="hidden md:block flex-1">
         <LogoBoard />
       </div>

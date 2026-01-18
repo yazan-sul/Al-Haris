@@ -8,7 +8,6 @@ export default function WebBlockClient() {
   const [url, setUrl] = useState("");
   const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState<string | null>(null);
-  const [blockedSites, setBlockedSites] = useState<string[]>([]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -50,7 +49,7 @@ export default function WebBlockClient() {
   };
 
   return (
-    <div className="max-w-lg mx-auto space-y-6">
+    <div className="max-w-2xl mx-auto space-y-6">
       <CategoriesComponent />
 
       <h1 className="text-xl font-semibold text-start">حظر موقع إلكتروني</h1>
