@@ -12,17 +12,12 @@ export default function Navbar() {
     { href: "/signup", label: "انشاء حساب" },
     { href: "/login", label: "تسحيل الدخول" },
     { href: "/support", label: "اتصل بنا" },
-
-    { href: "/aboutus", label: "حول التطبيق" },
     { href: "/dashboard", label: "لوحة التحكم" },
   ];
 
   return (
     <nav className="bg-white border-b border-gray-200 px-6 py-4">
       <div className="flex items-center justify-between">
-        {/* Far Right - Logo and Name */}
-
-        {/* Far Left - 4 Navigation Links */}
         <div className="flex items-center gap-6">
           {navLinks.map((link) => (
             <Link

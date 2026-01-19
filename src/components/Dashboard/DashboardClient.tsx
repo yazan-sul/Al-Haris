@@ -1,12 +1,30 @@
 "use client";
 
-import { useState, useMemo } from "react";
+import { useState, useMemo, useEffect } from "react";
 import Card from "@/components/core/Card";
 import ToggleBar from "@/components/core/ToggleBar";
 import { Ban, Clock, Wifi } from "lucide-react";
 
 export default function DashboardClient() {
   const [isEnabled, setIsEnabled] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
+  useEffect(() => {
+    const fetchInitialStatus = async () => {
+      try {
+        const response = await fetch("/api/parent/app-status");
+        if (response.ok) {
+          const data = await response.json();
+          setIsEnabled(data.filtering_enabled);
+        }
+      } catch (error) {
+        console.error("Error fetching initial status:", error);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    fetchInitialStatus();
+  }, []);
 
   const dateText = useMemo(() => {
     const today = new Date();
@@ -34,9 +52,10 @@ export default function DashboardClient() {
     } catch (error) {
       console.error(error);
       setIsEnabled(previousState);
-      alert("حدث خطء اثناء تحديث الحالة");
+      alert("حدث خطأ أثناء تحديث الحالة");
     }
   };
+
   return (
     <div className="flex flex-col space-y-10 w-full" dir="rtl">
       <div className="text-start px-4">
@@ -57,8 +76,16 @@ export default function DashboardClient() {
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 max-w-6xl w-full">
             <Card
               label="تفعيل البرنامج"
-              icon={<ToggleBar enabled={isEnabled} onChange={handleToggle} />}
-              result={isEnabled ? "مفعل" : "غير مفعل"}
+              icon={
+                isLoading ? (
+                  <div className="animate-pulse bg-gray-200 h-6 w-12 rounded-full" />
+                ) : (
+                  <ToggleBar enabled={isEnabled} onChange={handleToggle} />
+                )
+              }
+              result={
+                isLoading ? "جاري التحميل..." : isEnabled ? "مفعل" : "غير مفعل"
+              }
             />
             <Card
               label="وقت الشاشة"

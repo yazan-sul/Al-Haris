@@ -26,66 +26,65 @@ export default function AddChildPage() {
     fetchChildren();
   }, []);
 
- const handleSubmit = async (e: React.MouseEvent<HTMLButtonElement>) => {
-  e.preventDefault();
-  setLoading(true);
-  setMessage("");
+  const handleSubmit = async (e: React.MouseEvent<HTMLButtonElement>) => {
+    e.preventDefault();
+    setLoading(true);
+    setMessage("");
 
-  try {
-    const response = await fetch("/api/parent/child", {
-      method: "POST",
-      credentials: "include", 
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(formData),
-    });
+    try {
+      const response = await fetch("/api/parent/child", {
+        method: "POST",
+        credentials: "include",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(formData),
+      });
 
-    if (response.ok) {
-      setMessage("تمت إضافة الطفل بنجاح");
-      setFormData({ name: "", device_name: "" });
-      fetchChildren();
-    } else {
-      setMessage("فشلت إضافة الطفل");
+      if (response.ok) {
+        setMessage("تمت إضافة الطفل بنجاح");
+        setFormData({ name: "", device_name: "" });
+        fetchChildren();
+      } else {
+        setMessage("فشلت إضافة الطفل");
+      }
+    } catch (error) {
+      setMessage("حدث خطأ أثناء الإضافة");
+      console.error("Error adding child:", error);
+    } finally {
+      setLoading(false);
     }
-  } catch (error) {
-    setMessage("حدث خطأ أثناء الإضافة");
-    console.error("Error adding child:", error);
-  } finally {
-    setLoading(false);
-  }
-};
+  };
 
-const fetchChildren = async () => {
-  try {
-    const response = await fetch("/api/parent/children", {
-      credentials: "include",
-    });
+  const fetchChildren = async () => {
+    try {
+      const response = await fetch("/api/parent/children", {
+        credentials: "include",
+      });
 
-    const data = await response.json();
-    setChildren(data.children || []);
-  } catch (error) {
-    console.error("Failed to fetch children:", error);
-  }
-};
-
-const handleDelete = async (childId: number) => {
-  if (!confirm("هل أنت متأكد من حذف هذا الطفل؟")) return;
-
-  try {
-    const response = await fetch(`/api/parent/child/${childId}`, {
-      method: "DELETE",
-      credentials: "include", 
-    });
-
-    if (response.ok) {
-      fetchChildren();
+      const data = await response.json();
+      setChildren(data.children || []);
+    } catch (error) {
+      console.error("Failed to fetch children:", error);
     }
-  } catch (error) {
-    console.error("Failed to delete child:", error);
-  }
-};
+  };
 
+  const handleDelete = async (childId: number) => {
+    if (!confirm("هل أنت متأكد من حذف هذا الطفل؟")) return;
+
+    try {
+      const response = await fetch(`/api/parent/child/${childId}`, {
+        method: "DELETE",
+        credentials: "include",
+      });
+
+      if (response.ok) {
+        fetchChildren();
+      }
+    } catch (error) {
+      console.error("Failed to delete child:", error);
+    }
+  };
 
   return (
     <div className="max-w-2xl mx-auto space-y-8 p-6">
