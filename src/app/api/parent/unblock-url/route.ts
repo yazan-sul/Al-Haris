@@ -7,7 +7,7 @@ export async function DELETE(req: Request) {
     const cookieStore = await cookies();
     const token = cookieStore.get("token")?.value;
 
-    const apiUrl = `${process.env.NEXT_PUBLIC_API_URL}/parent/parent/unblock-url`;
+    const apiUrl = `${process.env.NEXT_PUBLIC_API_URL}/parent/unblock-url`;
 
     const response = await fetch(apiUrl, {
       method: "DELETE",

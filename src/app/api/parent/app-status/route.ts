@@ -1,7 +1,7 @@
 import { NextResponse } from "next/server";
 import { cookies } from "next/headers";
 
-const API_URL = `${process.env.NEXT_PUBLIC_API_URL}/parent/parent/app-status`;
+const API_URL = `${process.env.NEXT_PUBLIC_API_URL}/parent/app-status`;
 
 export async function GET() {
   const cookieStore = await cookies();
