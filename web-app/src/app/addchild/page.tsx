@@ -158,14 +158,6 @@ export default function AddChildPage() {
                 </div>
                 <div className="flex gap-2">
                   <button
-                    onClick={() =>
-                      (window.location.href = `/child/${child.id}/settings`)
-                    }
-                    className="px-4 py-2 text-sm text-blue-600 hover:bg-blue-50 rounded-lg transition-colors"
-                  >
-                    الإعدادات
-                  </button>
-                  <button
                     onClick={() => handleDelete(child.id)}
                     className="px-4 py-2 text-sm text-red-600 hover:bg-red-50 rounded-lg transition-colors"
                   >
