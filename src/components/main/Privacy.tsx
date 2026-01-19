@@ -37,7 +37,7 @@ const PrivacyPolicy = () => {
           </h1>
         </div>
 
-        <div className="flex shadow-xl rounded-xl flex-col gap-10">
+        <div className="flex shadow-xl rounded-xl flex-col gap-10 outline outline-gray-100">
           {sections.map((item, index) => (
             <PrivacyCard
               key={index}
