@@ -17,6 +17,26 @@ export default function DashboardClient() {
     }).format(today);
   }, []);
 
+  const handleToggle = async (newValue: boolean) => {
+    const previousState = isEnabled;
+    setIsEnabled(newValue);
+
+    try {
+      const response = await fetch("/api/parent/app-status", {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ enabled: newValue }),
+      });
+
+      if (!response.ok) {
+        throw new Error("Failed to update status");
+      }
+    } catch (error) {
+      console.error(error);
+      setIsEnabled(previousState);
+      alert("حدث خطء اثناء تحديث الحالة");
+    }
+  };
   return (
     <div className="flex flex-col space-y-10 w-full" dir="rtl">
       <div className="text-start px-4">
@@ -37,7 +57,7 @@ export default function DashboardClient() {
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 max-w-6xl w-full">
             <Card
               label="تفعيل البرنامج"
-              icon={<ToggleBar enabled={isEnabled} onChange={setIsEnabled} />}
+              icon={<ToggleBar enabled={isEnabled} onChange={handleToggle} />}
               result={isEnabled ? "مفعل" : "غير مفعل"}
             />
             <Card
