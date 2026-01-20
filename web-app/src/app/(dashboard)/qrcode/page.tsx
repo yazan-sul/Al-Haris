@@ -2,11 +2,11 @@
 
 import { useState, useEffect } from "react";
 import { useSearchParams } from "next/navigation";
-import QRCode from "qrcode";
+import { QRCodeCanvas } from "qrcode.react";
 
 export default function QRCodePage() {
-  const [qrDataUrl, setQrDataUrl] = useState<string>("");
-  const [childName, setChildName] = useState<string>("");
+  const [childName, setChildName] = useState("");
+  const [token, setToken] = useState("");
 
   const searchParams = useSearchParams();
   const childId = searchParams.get("childId");
@@ -18,23 +18,16 @@ export default function QRCodePage() {
       try {
         const res = await fetch("/api/auth/generate-qr-token", {
           method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
+          headers: { "Content-Type": "application/json" },
           credentials: "include",
           body: JSON.stringify({ child_id: parseInt(childId) }),
         });
 
-        if (!res.ok) {
-          console.error("qr generation failed : ", res.status);
-          return;
-        }
+        if (!res.ok) return;
 
         const data = await res.json();
         setChildName(data.child_name);
-
-        const qr = await QRCode.toDataURL(data.token, { width: 300 });
-        setQrDataUrl(qr);
+        setToken(data.token);
       } catch (error) {
         console.error("can't generate QR:", error);
       }
@@ -53,9 +46,7 @@ export default function QRCodePage() {
           {childName && (
             <h2 className="text-xl font-bold">رمز QR لـ {childName}</h2>
           )}
-          {qrDataUrl && (
-            <img src={qrDataUrl} alt="QR code" className="mx-auto" />
-          )}
+          {token && <QRCodeCanvas value={token} size={300} />}
         </div>
       </main>
     </div>
