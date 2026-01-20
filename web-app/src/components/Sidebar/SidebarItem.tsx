@@ -39,7 +39,7 @@ const SidebarItem: React.FC<SidebarItemProps> = ({
           ${isActive ? "scale-110" : "group-hover:scale-110"}
         `}
       />
-      {/* Always take up space, just fade/slide the text */}
+
       <span
         className={`
           transition-all duration-300 whitespace-nowrap

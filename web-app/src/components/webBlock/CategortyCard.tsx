@@ -14,7 +14,6 @@ export default function CategoryCard({
   onToggle,
   disabled = false,
 }: CategoryCardProps) {
-  // Use lucide-react components instead of emojis
   const categoryData: Record<
     string,
     { name: string; icon: React.ElementType; description: string }
@@ -48,7 +47,7 @@ export default function CategoryCard({
 
   const data = categoryData[category] || {
     name: category,
-    icon: Gamepad, // fallback icon
+    icon: Gamepad,
     description: "فئة محظورة",
   };
 

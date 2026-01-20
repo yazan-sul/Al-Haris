@@ -3,15 +3,7 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
-import {
-  Mail,
-  Lock,
-  Eye,
-  EyeOff,
-  User,
-  CheckCircle2,
-  Circle,
-} from "lucide-react";
+import { Mail, Lock, Eye, EyeOff, User } from "lucide-react";
 import LogoBoard from "./logoBoard";
 import { PasswordChecklist } from "../core/PasswordCheckList";
 
