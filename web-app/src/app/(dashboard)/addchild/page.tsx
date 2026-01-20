@@ -167,11 +167,11 @@ export default function AddChildPage() {
                   </button>
 
                   <Link
-                    href={`/qrcode?childId=${child.id}`}
+                    href={`/qrcode/${child.id}`}
                     className="flex items-center gap-2 px-4 py-2 bg-blue-50 text-blue-700 rounded-lg text-sm font-medium hover:bg-blue-100 transition-colors"
                   >
                     <QrCode className="w-4 h-4" />
-                    <span> QR مسح رمز </span>
+                    <span>QR مسح رمز</span>
                   </Link>
                 </div>
               </div>

@@ -64,9 +64,9 @@ const UserProfile: React.FC<UserProfileProps> = ({ isOpen }) => {
         <User className="w-24 h-24 text-white" />
       </div>
       <div className="flex-1 transition-all duration-300 text-center">
-        <p className="text-lg font-semibold text-gray-700 dark:text-gray-200">
+        {/* <p className="text-lg font-semibold text-gray-700 dark:text-gray-200">
           {loading ? "..." : user?.name || "Guest"}
-        </p>
+        </p> */}
         <p className="text-xs text-gray-500 dark:text-gray-400">ولي امر</p>
       </div>
     </Link>
