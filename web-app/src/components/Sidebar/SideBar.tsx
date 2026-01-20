@@ -31,7 +31,7 @@ const Sidebar: React.FC<SidebarProps> = ({
 
   const mainNavItems: NavItem[] = [
     { name: "لوحة التحكم", href: "/dashboard", icon: LayoutDashboard },
-    { name: "حظر التطبيقات", href: "/block", icon: Ban },
+
     { name: "تصفية الويب", href: "/webBlock", icon: Shield },
     { name: "العائلة", href: "/addchild", icon: Users },
     { name: "تقارير الحوادث", href: "/reports", icon: FileText },
