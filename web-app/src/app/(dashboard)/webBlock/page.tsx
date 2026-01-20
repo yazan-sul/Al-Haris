@@ -1,4 +1,4 @@
-import WebBlockClient from "../../components/webBlock/WebBlockClient";
+import WebBlockClient from "../../../components/webBlock/WebBlockClient";
 
 export default function WebBlockPage() {
   return (
