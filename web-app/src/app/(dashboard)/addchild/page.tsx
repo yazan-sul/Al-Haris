@@ -1,5 +1,7 @@
 "use client";
 
+import { QrCode } from "lucide-react";
+import Link from "next/link";
 import { useState, useEffect } from "react";
 
 interface Child {
@@ -163,6 +165,14 @@ export default function AddChildPage() {
                   >
                     حذف
                   </button>
+
+                  <Link
+                    href={`/qrcode?childId=${child.id}`}
+                    className="flex items-center gap-2 px-4 py-2 bg-blue-50 text-blue-700 rounded-lg text-sm font-medium hover:bg-blue-100 transition-colors"
+                  >
+                    <QrCode className="w-4 h-4" />
+                    <span> QR مسح رمز </span>
+                  </Link>
                 </div>
               </div>
             ))}

@@ -57,7 +57,7 @@ const UserProfile: React.FC<UserProfileProps> = ({ isOpen }) => {
 
   return (
     <Link
-      href="/profile"
+      href="/dashboard"
       className="flex flex-col items-center gap-3 px-3 py-4 border-b border-gray-200 dark:border-gray-700 hover:bg-gray-100 dark:hover:bg-gray-700/50 transition-all duration-200 group"
     >
       <div className="p-3 bg-gradient-to-br from-purple-500 to-pink-500 rounded-full">

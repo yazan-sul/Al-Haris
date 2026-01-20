@@ -16,9 +16,9 @@ interface NavItem {
 }
 
 interface SidebarProps {
-  isOpen: boolean; // controlled from parent
-  toggleSidebar: () => void; // function to toggle
-  isMobile?: boolean; // optional, parent can pass if needed
+  isOpen: boolean;
+  toggleSidebar: () => void;
+  isMobile?: boolean;
 }
 
 const Sidebar: React.FC<SidebarProps> = ({
@@ -36,7 +36,6 @@ const Sidebar: React.FC<SidebarProps> = ({
     { name: "العائلة", href: "/addchild", icon: Users },
     { name: "تقارير الحوادث", href: "/reports", icon: FileText },
   ];
-
   const sidebarWidth = isOpen ? "w-64" : "w-16";
 
   return (
