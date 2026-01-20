@@ -1,15 +1,17 @@
 "use client";
 
 import { useState, useEffect } from "react";
-
-export default function BlockedSitesList() {
+type Props = {
+  rerenderKey: number;
+};
+export default function BlockedSitesList({ rerenderKey }: Props) {
   const [blockedSites, setBlockedSites] = useState<string[]>([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
+    setLoading(true);
     fetchBlockedSites();
-  }, []);
-
+  }, [rerenderKey]);
   const fetchBlockedSites = async () => {
     try {
       const response = await fetch("/api/parent/settings", {
@@ -32,6 +34,9 @@ export default function BlockedSitesList() {
       const response = await fetch("/api/parent/unblock-url", {
         method: "DELETE",
         credentials: "include",
+        headers: {
+          "Content-Type": "application/json",
+        },
         body: JSON.stringify({ url: site }),
       });
 
@@ -61,7 +66,7 @@ export default function BlockedSitesList() {
         <ul className="space-y-2">
           {blockedSites.map((site, index) => (
             <li
-              key={index}
+              key={site}
               className="flex items-center justify-between rounded-lg border bg-gray-50 px-4 py-3"
             >
               <span className="text-sm truncate flex-1">{site}</span>

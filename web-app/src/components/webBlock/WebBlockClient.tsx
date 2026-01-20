@@ -8,6 +8,7 @@ export default function WebBlockClient() {
   const [url, setUrl] = useState("");
   const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState<string | null>(null);
+  const [rerenderKey, setRerenderKey] = useState(0);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -34,8 +35,8 @@ export default function WebBlockClient() {
       }
 
       setMessage(data.message);
-
       setUrl("");
+      setRerenderKey((prev) => prev + 1);
     } catch {
       setMessage("فشل في حظر الموقع");
     } finally {
@@ -66,11 +67,7 @@ export default function WebBlockClient() {
         </button>
       </form>
 
-      {message && (
-        <p className="text-center text-sm text-green-600">{message}</p>
-      )}
-
-      <BlockUrl />
+      <BlockUrl rerenderKey={rerenderKey} />
     </div>
   );
 }
