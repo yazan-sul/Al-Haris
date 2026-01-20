@@ -34,6 +34,10 @@ Thirteen endpoints organized into:
 - QR code Login (generating QR token, logging in using the token)
 - activity reporting(get reports for parent, submit reports from child)
 
+### Live API
+- Base URL: https://al-haris-production.up.railway.app
+- Interactive Docs: https://al-haris-production.up.railway.app/docs
+
   
 ### Frontend
 
@@ -65,7 +69,7 @@ Authentication Flow
 - **Login (/):** Email/password authentication stores JWT in httpOnly cookie
 - **Session Management:** Token automatically included in all API requests via cookies
 
-
+> Try it: https://alharisweb.vercel.app/
 
 ## Child Client (Android)
 
