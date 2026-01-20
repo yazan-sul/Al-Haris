@@ -20,7 +20,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
       }
     };
     loadUser();
-  }, []); // Runs ONLY ONCE when the app starts
+  }, []);
 
   return (
     <AuthContext.Provider value={{ user, loading }}>

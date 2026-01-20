@@ -1,4 +1,3 @@
-// src/components/navbar/BottomBar.tsx
 "use client";
 
 import Link from "next/link";

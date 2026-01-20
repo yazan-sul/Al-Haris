@@ -39,7 +39,6 @@ export default function LoginForm() {
         throw new Error(data.message || "فشل تسجيل الدخول");
       }
 
-      // Redirect to verify page with email
       router.push(`/verify?email=${encodeURIComponent(formData.email)}`);
     } catch (err: any) {
       setError(err.message || "حدث خطأ ما");
