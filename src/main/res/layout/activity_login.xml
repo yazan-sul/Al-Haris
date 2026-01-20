@@ -46,5 +46,12 @@
         android:text="Login with QR Code"
         android:layout_marginTop="8dp"/>
 
+    <Button
+        android:id="@+id/cancelBtn"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Cancel"
+        android:layout_marginTop="8dp"
+        android:visibility="gone"/>
 
 </LinearLayout>
