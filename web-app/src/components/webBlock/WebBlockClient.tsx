@@ -27,10 +27,14 @@ export default function WebBlockClient() {
         body: JSON.stringify({ url }),
       });
 
-      if (!res.ok) throw new Error();
-
       const data = await res.json();
-      setMessage(data);
+
+      if (!res.ok) {
+        throw new Error(data.message || "خطأ غير معروف");
+      }
+
+      setMessage(data.message);
+
       setUrl("");
     } catch {
       setMessage("فشل في حظر الموقع");
