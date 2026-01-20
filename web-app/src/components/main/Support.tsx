@@ -3,27 +3,30 @@ import PrivacyCard from "./PrivacyCard";
 const ContactUs = () => {
   const teamEmails = [
     {
-      title: "الدعم الفني والتقني",
+      title: "الدعم الفني",
       content:
-        "للمشاكل التقنية أو الاستفسارات حول تشغيل البرنامج: support@project.com",
+        "للمشاكل التقنية أو الاستفسارات حول تشغيل البرنامج: yazan5sulaiman@gmail.com",
     },
     {
       title: "قسم الإدارة والشكاوى",
       content:
-        "للتواصل المباشر مع إدارة المنصة بخصوص الحسابات: admin@project.com",
+        "للتواصل المباشر مع إدارة المنصة بخصوص الحسابات: osamams518@gmail.com",
     },
     {
       title: "علاقات المستخدمين",
-      content: "للمقترحات وتطوير تجربة المستخدم: feedback@project.com",
+      content: "للمقترحات وتطوير تجربة المستخدم: Yazanmadek9@gmail.com",
     },
     {
       title: "الاستفسارات العامة",
-      content: "لأي معلومات إضافية حول المشروع: info@project.com",
+      content: "لأي معلومات إضافية حول المشروع: Yousefjebreel@gmail.com",
     },
   ];
 
   return (
-    <div className="min-h-screen bg-gray-50 py-16 px-4 font-sans" dir="rtl">
+    <div
+      className="min-h-screen bg-gray-50 rounded-xl outline outline-gray-100 my-4 py-16 px-4 "
+      dir="rtl"
+    >
       <div className="max-w-4xl mx-auto">
         <div className="text-center mb-12">
           <h1 className="text-3xl font-extrabold text-gray-900 mb-4 tracking-tight">
@@ -31,7 +34,7 @@ const ContactUs = () => {
           </h1>
           <p className="text-gray-600 max-w-2xl mx-auto">
             فريقنا متاح دائماً للإجابة على تساؤلاتكم. يمكنك التواصل مع القسم
-            المختص مباشرة عبر البريد الإلكتروني الموضح أدناه.
+            المختص مباشرة عبر البريد الإلكتروني .
           </p>
         </div>
 
