@@ -34,10 +34,43 @@ Thirteen endpoints organized into:
 - QR code Login (generating QR token, logging in using the token)
 - activity reporting(get reports for parent, submit reports from child)
 
-## Parent Client
+  
+### Frontend
 
-Parents can add child profiles, configure blocked categories, add specific URLs to block, and review activity reports with screenshots. _Technical details to be added by client team._
+### Parent Client
+The parent client is a Next.js web application that provides parents with a dashboard to manage their children's devices, configure content filtering rules, and monitor activity through reports and screenshots.
+
+Design Decisions
+
+Next.js API Routes as Proxy Layer: All backend communication flows through Next.js API routes (/api/*) that handle authentication token management and forward requests to the FastAPI backend, keeping the JWT token secure in httpOnly cookies.
+
+Arabic-First UI with RTL Support: The entire interface is designed in Arabic with right-to-left layout, using Tailwind CSS utilities for RTL-aware spacing and alignment.
+QR Code Authentication Flow: Parents can generate time-limited QR codes for specific children, allowing quick device setup without manually entering credentials. QR codes auto-refresh to maintain security.
+Progressive Data Loading: Child lists, reports, and blocked URLs are fetched on-demand rather than preloaded, reducing initial page weight and improving perceived performance.
+
+### Technologies and Services
+
+- **Next.js 14+** provides server-side rendering, API routes, file-based routing, and automatic code splitting
+- **TypeScript** ensures type safety across components and API interfaces
+- **Tailwind CSS** handles responsive design with utility-first styling and RTL support
+- **QRCode.js** generates scannable QR codes for child device authentication
+- **Lucide React** provides consistent icon system throughout the interface
+- **Fetch API** handles all HTTP requests with cookie-based authentication
+
+### Application Structure
+Authentication Flow
+
+Signup (/signup): Parents enter email and password, receive verification code
+Verification (/verify): Six-digit code entry validates email ownership
+Login (/): Email/password authentication stores JWT in httpOnly cookie
+Session Management: Token automatically included in all API requests via cookies
+
+
 
 ## Child Client (Android)
 
 Retrieves personalized blocklists and enforces blocking via local VPN filtering, submitting reports when blocked content is accessed. _Technical details to be added by client team._
+
+
+API Integration Layer
+API Route Pattern:
