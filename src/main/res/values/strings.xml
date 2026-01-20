@@ -1,0 +1,22 @@
+<resources>
+    <string name="app_name">AlHarisChild</string>
+
+    <string name="login_title">Login</string>
+    <string name="username">Username</string>
+    <string name="password">Password</string>
+    <string name="login">Login</string>
+
+    <string name="status_active">Protection Status: ACTIVE</string>
+    <string name="status_inactive">Protection Status: INACTIVE</string>
+    <string name="enable_protection">Enable Protection</string>
+    <string name="disable_protection">Disable Protection</string>
+    <string name="allow_app_removal">Allow App Removal</string>
+
+
+    <string name="set_parent_pin">Set Parent PIN</string>
+    <string name="pin_description">This PIN is required to manage protection settings</string>
+    <string name="enter_pin">Enter 4-digit PIN</string>
+    <string name="confirm_pin">Confirm PIN</string>
+    <string name="save_pin">Save PIN</string>
+
+</resources>
