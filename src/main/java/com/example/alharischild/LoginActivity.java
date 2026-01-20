@@ -2,6 +2,7 @@ package com.example.alharischild;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
@@ -22,6 +23,10 @@ public class LoginActivity extends AppCompatActivity {
     private EditText emailInput;
     private EditText passwordInput;
     private Button loginBtn;
+    private Button qrLoginBtn;
+    private Button cancelBtn;
+
+    private SessionManager session;
 
     private static final String BASE_URL =
             "https://al-haris-production.up.railway.app";
@@ -31,22 +36,54 @@ public class LoginActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
+        session = new SessionManager(this);
+
         emailInput = findViewById(R.id.usernameInput);
         passwordInput = findViewById(R.id.passwordInput);
         loginBtn = findViewById(R.id.loginBtn);
+        qrLoginBtn = findViewById(R.id.qrLoginBtn);
+        cancelBtn = findViewById(R.id.cancelBtn);
 
         loginBtn.setOnClickListener(v -> attemptLogin());
 
-        Button qrLoginBtn = findViewById(R.id.qrLoginBtn);
-
         qrLoginBtn.setOnClickListener(v ->
-                startActivity(
-                        new Intent(this, ScanQrActivity.class)
-                )
+                startActivity(new Intent(this, ScanQrActivity.class))
+        );
+
+        boolean isReAuth = session.getPendingAction() != null;
+        if (isReAuth) {
+            cancelBtn.setVisibility(View.VISIBLE);
+            cancelBtn.setOnClickListener(v -> cancelReAuth());
+        } else {
+            cancelBtn.setVisibility(View.GONE);
+        }
+        getOnBackPressedDispatcher().addCallback(
+                this,
+                new androidx.activity.OnBackPressedCallback(true) {
+
+                    @Override
+                    public void handleOnBackPressed() {
+
+                        SessionManager session =
+                                new SessionManager(LoginActivity.this);
+
+                        if (session.getPendingAction() != null) {
+                            session.clearPendingAction();
+                            finish();
+                        } else {
+                            setEnabled(false);
+                            getOnBackPressedDispatcher().onBackPressed();
+                        }
+                    }
+                }
         );
 
     }
 
+    private void cancelReAuth() {
+        session.clearPendingAction();
+        finish();
+    }
 
 
     private void attemptLogin() {
@@ -105,7 +142,6 @@ public class LoginActivity extends AppCompatActivity {
 
                 if (code >= 200 && code < 300) {
                     runOnUiThread(() -> {
-
                         Toast.makeText(this,
                                 "Verification code sent to email",
                                 Toast.LENGTH_SHORT).show();

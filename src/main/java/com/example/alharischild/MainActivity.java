@@ -151,11 +151,10 @@ public class MainActivity extends AppCompatActivity {
                 Toast.LENGTH_SHORT).show();
     }
 
+
     private void requestReAuth(String action) {
         session.setPendingAction(action);
-        session.clearAuth();
         startActivity(new Intent(this, LoginActivity.class));
-        finish();
     }
 
     private void setProtection(boolean enabled) {
