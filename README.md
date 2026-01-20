@@ -60,10 +60,10 @@ Progressive Data Loading: Child lists, reports, and blocked URLs are fetched on-
 ### Application Structure
 Authentication Flow
 
-Signup (/signup): Parents enter email and password, receive verification code
-Verification (/verify): Six-digit code entry validates email ownership
-Login (/): Email/password authentication stores JWT in httpOnly cookie
-Session Management: Token automatically included in all API requests via cookies
+- **Signup (/signup):** Parents enter email and password, receive verification code
+- **Verification (/verify):** Six-digit code entry validates email ownership
+- **Login (/):** Email/password authentication stores JWT in httpOnly cookie
+- **Session Management:** Token automatically included in all API requests via cookies
 
 
 
